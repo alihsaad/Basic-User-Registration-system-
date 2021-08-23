@@ -3,18 +3,19 @@ const mongoose  = require("mongoose");
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: true
+        required: true,
+        //unique: true,
+        minlength: 8,
+        maxlength: 1024 
     },
 
     password1: {
         type: String,
-        // required: true 
+        required: true,
+        minlength: 8,
+        maxlength: 1024 
     },
 
-    password2: {
-        type: String,
-        // required: true 
-    },
 
     fav_player: {
         type: String  //later make it player ID ?
