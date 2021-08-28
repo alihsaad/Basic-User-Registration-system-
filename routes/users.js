@@ -30,6 +30,10 @@ router.post('/', async (req, res) => {
         username: req.body.username,
         password1: req.body.password
         })
+
+        if (req.body.fav_player != null){
+            user.fav_player = req.body.fav_player
+        }
     
         const newUser = await user.save()
         res.status(201).json(newUser)
@@ -39,8 +43,26 @@ router.post('/', async (req, res) => {
 })
 
 //Updating One
-router.patch('/', (req, res) => {
-    
+router.patch('/:id', getUser, async (req, res) => {
+    if (req.body.username != null ){
+        res.user.username = req.body.username
+        
+    }
+    if (req.body.password != null ){
+        res.user.password = req.body.password
+        
+    }
+    if (req.body.fav_player != null){
+        res.user.fav_player = req.body.fav_player
+        
+    }
+    try {
+        const updatedUser = await res.user.save()
+        res.json(updatedUser)
+    }
+    catch (error) {
+        res.status(400).json({message: error.message})
+    }
 })  
 
 // Deleting One 
