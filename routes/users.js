@@ -31,31 +31,26 @@ router.post('/', async (req, res) => {
         password1: req.body.password
         })
 
-        if (req.body.fav_player != null){
-            user.fav_player = req.body.fav_player
-        }
-    
+
+        if (req.body.fav_player != null) user.fav_player = req.body.fav_player
+        
+
+
         const newUser = await user.save()
         res.status(201).json(newUser)
+
     } catch (error) {
         res.status(400).json({message: error.message})  //400: user error
     }
 })
 
-//Updating One
+
+//Updating a user 
 router.patch('/:id', getUser, async (req, res) => {
-    if (req.body.username != null ){
-        res.user.username = req.body.username
-        
-    }
-    if (req.body.password != null ){
-        res.user.password = req.body.password
-        
-    }
-    if (req.body.fav_player != null){
-        res.user.fav_player = req.body.fav_player
-        
-    }
+    if (req.body.username != null )  res.user.username = req.body.username;
+    if (req.body.password != null )  res.user.password = req.body.password;   
+    if (req.body.fav_player != null) res.user.fav_player = req.body.fav_player;
+   
     try {
         const updatedUser = await res.user.save()
         res.json(updatedUser)
@@ -65,7 +60,7 @@ router.patch('/:id', getUser, async (req, res) => {
     }
 })  
 
-// Deleting One 
+// Deleting a user
 router.delete('/:id', getUser, async (req, res) => {
     try {
         await res.user.remove();
@@ -77,11 +72,12 @@ router.delete('/:id', getUser, async (req, res) => {
 }) 
 
 
+
+//middleware that allows us to grab a user from our DB
 async function getUser(req, res, next){
     let user
     try {
         let id = req.params.id
-        //console.log(id)
         user = await User.findById(id);
         if (user == null) return res.status(404).json({message: "cannot find user"})
     } catch (error) {
